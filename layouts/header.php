@@ -14,7 +14,7 @@
     <title><?= $config['app_name']; ?></title>
 </head>
 <body>
-<div class="pb-5 mb-5">
+<div class="mb-5">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
   <a class="navbar-brand" href="<?= $config['home']; ?>"><?= $config['app_name']; ?></a>

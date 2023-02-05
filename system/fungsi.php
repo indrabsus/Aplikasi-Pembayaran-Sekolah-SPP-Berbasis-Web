@@ -476,4 +476,36 @@ class Fungsi{
         $result['no'] = $no;
         return $result;
     }
+    public function grafik(){
+        $data = mysqli_query($this->kon(), "SELECT * FROM pembayaran");
+        if(mysqli_num_rows($data)>0){
+            while($d = mysqli_fetch_assoc($data)){
+                $select[] = $d;
+            } 
+        } else {
+            $select = null;
+        }
+        return $select;
+    }
+    public function dashboard(){
+        $data = "SELECT SUM(jumlah_bayar) AS sum FROM pembayaran";
+        $hasil = mysqli_query($this->kon(), $data);
+
+        $val = mysqli_fetch_array($hasil);
+        $total['jumlah'] = $val['sum'];
+
+        $jml_siswa = mysqli_num_rows(mysqli_query($this->kon(), "SELECT * FROM siswa"));
+        $total['jml_siswa'] = $jml_siswa;
+
+        $jml_angkatan = mysqli_num_rows(mysqli_query($this->kon(), "SELECT * FROM spp"));
+        $total['jml_angkatan'] = $jml_angkatan;
+
+        $jml_kelas = mysqli_num_rows(mysqli_query($this->kon(), "SELECT * FROM kelas"));
+        $total['jml_kelas'] = $jml_kelas;
+
+        $jml_petugas = mysqli_num_rows(mysqli_query($this->kon(), "SELECT * FROM petugas"));
+        $total['jml_petugas'] = $jml_petugas;
+
+        return $total;
+    }
 }
