@@ -1,3 +1,10 @@
+<?php
+$tahun = $fungsi->tahun();
+$kelas = $fungsi->kelas();
+if($tahun == null || $kelas == null){
+    header('location: admin.php?page=datasiswa&status=belumsetup');
+}
+?>
 <div class="container pb-5">
     <h1 class="mb-3">Input Data Siswa</h1>
     <form action="<?= $config['home'] ?>admin.php?page=insertsiswa" method="post">
@@ -5,19 +12,19 @@
         <div class="col-6">
         <div class="form-group">
         <label>NISN</label>
-        <input type="text" name="nisn" class="form-control">
+        <input type="text" name="nisn" class="form-control" required>
     </div>
     <div class="form-group">
         <label>NIS</label>
-        <input type="text" name="nis" class="form-control">
+        <input type="text" name="nis" class="form-control" required>
     </div>
     <div class="form-group">
         <label>Nama Siswa</label>
-        <input type="text" name="nama" class="form-control">
+        <input type="text" name="nama" class="form-control" required>
     </div>
     <div class="form-group">
         <label>Kelas</label>
-        <select name="id_kelas" class="form-control">
+        <select name="id_kelas" class="form-control" required>
             <option value="">Pilih Kelas</option>
             <?php
                 foreach($fungsi->kelas() as $d){ ?>
@@ -33,18 +40,20 @@
         <div class="col-6">
         <div class="form-group">
         <label>Alamat</label>
-        <textarea name="alamat" class="form-control" rows="4"></textarea>
+        <textarea name="alamat" class="form-control" rows="4" required></textarea>
     </div>
     <div class="form-group">
         <label>No Telpon</label>
-        <input type="text" name="no_telp" class="form-control">
+        <input type="text" name="no_telp" class="form-control" required>
     </div>
     <div class="form-group">
         <label>Tahun SPP</label>
-        <select name="id_spp" class="form-control">
-            <option value="">Pilih Tahun</option>
+        <select name="id_spp" class="form-control" required>
+            <option value="<?= null; ?>">Pilih Tahun</option>
             <?php
-                foreach($fungsi->tahun() as $d){ ?>
+                foreach($fungsi->tahun() as $d){ 
+                    ?>
+                    
                     <option value="<?= $d['id_spp']; ?>">Tahun <?= $d['tahun']; ?> - Rp. <?= number_format($d['nominal'],2,',','.') ?></option>
              <?php   }
             ?>

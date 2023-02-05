@@ -10,20 +10,20 @@ $data = $fungsi->editSiswa($_GET['nisn']);
 foreach($data as $d){ ?>
         <div class="col-6">
         <div class="form-group">
-        <label>NISN</label>
-        <input type="text" name="nisn" class="form-control" value="<?= $d['nisn'];?>">
+        <label>NISN : <?= $d['nisn'];?> (Tidak bisa diubah)</label>
+        <input type="text" name="nisn" class="form-control" value="<?= $d['nisn'];?>" hidden>
     </div>
     <div class="form-group">
-        <label>NIS</label>
-        <input type="text" name="nis" class="form-control" value="<?= $d['nis'];?>">
+        <label>NIS : <?= $d['nis'];?> (Tidak bisa diubah)</label>
+        <input type="text" name="nis" class="form-control" value="<?= $d['nis'];?>" hidden>
     </div>
     <div class="form-group">
         <label>Nama Siswa</label>
-        <input type="text" name="nama" class="form-control" value="<?= $d['nama'];?>">
+        <input type="text" name="nama" class="form-control" value="<?= $d['nama'];?>" required>
     </div>
     <div class="form-group">
         <label>No Telepon</label>
-        <input type="text" name="no_telp" class="form-control" value="<?= $d['no_telp'];?>">
+        <input type="text" name="no_telp" class="form-control" value="<?= $d['no_telp'];?>" required>
     </div>
     
 
@@ -32,11 +32,11 @@ foreach($data as $d){ ?>
         <div class="col-6">
         <div class="form-group">
         <label>Alamat</label>
-        <textarea name="alamat" class="form-control" rows="4"><?= $d['alamat'];?></textarea>
+        <textarea name="alamat" class="form-control" rows="4" required><?= $d['alamat'];?></textarea>
     </div>
     <div class="form-group">
         <label>Kelas</label>
-        <select name="id_kelas" class="form-control">
+        <select name="id_kelas" class="form-control" required>
             <option value="<?= $d['id_kelas'];?>"><?= $d['nama_kelas'];?></option>
             <?php
                 foreach($fungsi->kelas() as $k){ ?>
@@ -48,7 +48,7 @@ foreach($data as $d){ ?>
     </div>
     <div class="form-group">
         <label>Tahun SPP</label>
-        <select name="id_spp" class="form-control">
+        <select name="id_spp" class="form-control" required>
             <option value="<?= $d['id_spp']; ?>"><?= $d['nominal']; ?></option>
             <?php
                 foreach($fungsi->tahun() as $d){ ?>

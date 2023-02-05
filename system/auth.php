@@ -29,6 +29,8 @@ class Login{
     }
     public function loginSiswa($nis=null, $no_telp=null){
         $fungsi = new Fungsi;
+
+
         if(isset($_POST['loginS'])){
             $sql = "SELECT * FROM siswa WHERE nis='$nis'";
             $query = mysqli_query($fungsi->kon(), $sql);

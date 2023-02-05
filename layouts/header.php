@@ -26,15 +26,13 @@
 
     <?php
 
-                                                            use Faker\Provider\bg_BG\PhoneNumber;
-
     if (isset($_SESSION['data'])) {
       if ($_SESSION['data']['level'] == 'admin') { ?>
  <li class="nav-item <?= $_GET['page'] == 'home' ? 'active' : ''; ?>">
         <a class="nav-link" href="<?= $config['home']?>admin.php?page=home">Dashboard</a>
       </li>
 <li class="nav-item dropdown <?php 
-        if($_GET['page'] == 'datasiswa' || $_GET['page'] == 'datapetugas'){
+        if($_GET['page'] == 'datasiswa' || $_GET['page'] == 'datapetugas' || $_GET['page'] == 'datakelas' || $_GET['page'] == 'dataspp'){
           echo "active";
         }
             ?>">
@@ -43,32 +41,26 @@
         </a>
        
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="<?= $config['home']?>admin.php?page=datasiswa">Data Siswa</a>
-          <a class="dropdown-item" href="<?= $config['home']?>admin.php?page=datapetugas">Data Petugas</a>
-          <a class="dropdown-item" href="#">Data Kelas</a>
-          <a class="dropdown-item" href="#">Data SPP</a>
+        <a class="dropdown-item" href="<?= $config['home']?>admin.php?page=dataspp">Data SPP</a>
+        <a class="dropdown-item" href="<?= $config['home']?>admin.php?page=datakelas">Data Kelas</a>
+        <a class="dropdown-item" href="<?= $config['home']?>admin.php?page=datapetugas">Data Petugas</a>
+          <a class="dropdown-item" href="<?= $config['home']?>admin.php?page=datasiswa">Data Siswa</a> 
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Laporan</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pembayaran</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">History</a>
+      <li class="nav-item <?= $_GET['page'] == 'laporan' ? 'active' : ''; ?>">
+        <a class="nav-link" href="admin.php?page=laporan">Laporan</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="index.php?aksi=logout">Logout</a>
       </li>
 
 <?php
-      } elseif($_SESSION['data']['level'] == 'petugas' || $_SESSION['data']['level'] == 'admin'){ ?>
-        <li class="nav-item">
-        <a class="nav-link" href="#">Pembayaran</a>
+      } elseif($_SESSION['data']['level'] == 'petugas'){ ?>
+      <li class="nav-item <?= $_GET['page'] == 'home' ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?= $config['home']?>petugas.php?page=home">Dashboard</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">History</a>
+        <li class="nav-item <?= $_GET['page'] == 'datasiswa' ? 'active' : ''; ?>">
+        <a class="nav-link" href="petugas.php?page=datasiswa">Pembayaran</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="index.php?aksi=logout">Logout</a>
@@ -81,7 +73,7 @@
     if(!isset($_SESSION['data'])){ ?>
 
 <li class="nav-item active">
-        <a class="nav-link" href="<?= $config['home']; ?>"><?= $fungsi->tanggal(); ?></a>
+        <a class="nav-link" href="<?= $config['home']; ?>"><?= $fungsi->hari_ini().', '.$fungsi->tanggal(); ?> - <span id="jam"></span></a>
       </li>
 
 <?php

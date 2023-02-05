@@ -51,6 +51,8 @@ if(isset($_SESSION['data'])){
 
 if(empty($_GET['page'])){
     header('location: siswa.php?page=home');
+} elseif($_GET['page'] == 'home'){
+  include "user/detailsiswa.php";
 }
 
 

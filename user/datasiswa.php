@@ -1,22 +1,43 @@
 <div class="container">
     <div class="row">
         
-        <div class="col-3">
+       
+        
+                    
+       <?php 
+            if($_SESSION['data']['level'] == 'admin'){ ?>
+             <div class="col-3">
         <div class="form-group">
         <a class="btn btn-primary" href="<?= $config['home']?>admin.php?page=formsiswa">Tambah Data</a>
     </div>
         </div>
-        
-                    
-                        <div class="col-3" >
+           <div class="col-3 ml-auto" >
                         <form action="admin.php?page=datasiswa" method="get">
+                        <div class="input-group">
                         <input type="text" name="siswa" class="form-control" placeholder="Cari Nama Siswa" autocomplete="off">
-                        </div>
-                        <div class="col-3">
-                        <button class="btn btn-primary" type="submit" name="cari" value="cari">Cari</button>
-                        </div>
                         
-                    </form>
+                        <div class="input-group-append">
+                        <button class="btn btn-dark" type="submit" name="cari" value="carisiswa">Cari</button>
+                        </div>
+                        </div>
+                        </form>
+                        </div>
+        <?php    } elseif($_SESSION['data']['level'] == 'petugas'){ ?>
+          <div class="col-3 ml-auto mb-2" >
+                        <form action="petugas.php?page=datasiswa" method="get">
+                        <div class="input-group">
+                        <input type="text" name="siswa" class="form-control" placeholder="Cari Nama Siswa" autocomplete="off">
+                        
+                        <div class="input-group-append">
+                        <button class="btn btn-dark" type="submit" name="cari" value="carisiswa">Cari</button>
+                        </div>
+                        </div>
+                        </form>
+                        </div>
+    <?php    }
+       
+       ?>
+                   
                 
     </div>
     <?php
@@ -48,7 +69,28 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-  <?php     }
+  <?php     } elseif($_GET['status'] == 'belumsetup'){ ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Gagal! </strong> Silakan isi dulu data SPP dan Kelas!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+ <?php } elseif($_GET['status'] == 'dataganda'){ ?>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Gagal! </strong> Terdeteksi Data Ganda
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+ <?php } elseif($_GET['status'] == 'errornumeric'){ ?>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Gagal! </strong> Terdeteksi ada error inputan harus menggunakan nomor
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<?php }
             }
 
 ?>
@@ -74,7 +116,12 @@ $no = $datas['no'];
             <th>No HP</th>
             <th>Tahun</th>
             <th>Nominal</th>
+            <?php 
+              if($_SESSION['data']['level'] == 'admin'){ ?>
             <th>Aksi</th>
+            <?php  }
+            ?>
+            <th>Pembayaran</th>
         </tr>
         <?php $no=1; ?>
         <?php
@@ -89,9 +136,28 @@ $no = $datas['no'];
                     <td><?= $d['no_telp']; ?></td>
                     <td><?= $d['tahun']; ?></td>
                     <td>Rp.<?= number_format($d['nominal'],2,',','.'); ?></td>
-                    <td><a class="btn btn-success btn-sm mb-1" href="admin.php?page=editsiswa&nisn=<?= $d['nisn']; ?>">Edit</a>
+                    <?php 
+              if($_SESSION['data']['level'] == 'admin'){ ?>
+            <td><a class="btn btn-success btn-sm mb-1" href="admin.php?page=editsiswa&nisn=<?= $d['nisn']; ?>">Edit</a>
                     <a class="btn btn-danger btn-sm mb-1" href="admin.php?page=deletesiswa&nisn=<?= $d['nisn']; ?>" onclick="return confirm('Apa anda yakin menghapus data ini?');">Hapus</a>
-                </td>
+                    </td>
+            <?php  }
+            ?>
+                    <?php 
+                    if($_SESSION['data']['level'] == 'admin'){ ?>
+                  <td><a class="btn btn-info btn-sm mb-1" href="admin.php?page=pembayaran&nisn=<?= $d['nisn']; ?>">Bayar</a>
+                    <a class="btn btn-dark btn-sm mb-1" href="admin.php?page=history&nisn=<?= $d['nisn']; ?>">History</a>
+                  </td>
+
+
+                 <?php   } elseif($_SESSION['data']['level'] == 'petugas'){ ?>
+                  <td><a class="btn btn-info btn-sm mb-1" href="petugas.php?page=pembayaran&nisn=<?= $d['nisn']; ?>">Bayar</a>
+                    <a class="btn btn-dark btn-sm mb-1" href="petugas.php?page=history&nisn=<?= $d['nisn']; ?>">History</a>
+                  </td>
+
+       <?php          }
+
+              ?>
                 </tr>
          <?php }
         }

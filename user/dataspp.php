@@ -3,18 +3,18 @@
         
         <div class="col-3">
         <div class="form-group">
-        <a class="btn btn-primary" href="<?= $config['home']?>admin.php?page=formpetugas">Tambah Data</a>
+        <a class="btn btn-primary" href="<?= $config['home']?>admin.php?page=formspp">Tambah Data</a>
     </div>
         </div>
         
                     
-                        <div class="col-3 ml-auto" >
-                        <form action="admin.php?page=datapetugas" method="get">
+        <div class="col-3 ml-auto" >
+                        <form action="admin.php?page=dataspp" method="get">
                         <div class="input-group">
-                        <input type="text" name="petugas" class="form-control" placeholder="Cari Nama Petugas" autocomplete="off">
+                        <input type="text" name="spp" class="form-control" placeholder="Cari Tahun" autocomplete="off">
                         
                         <div class="input-group-append">
-                        <button class="btn btn-dark" type="submit" name="cari" value="caripetugas">Cari</button>
+                        <button class="btn btn-dark" type="submit" name="cari" value="carispp">Cari</button>
                         </div>
                         </div>
                         </div>
@@ -26,7 +26,7 @@
                 if($_GET['status'] == 'inputberhasil') { ?>
                 
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>Sukses! </strong> Kamu berhasil Input Data Petugas
+  <strong>Sukses! </strong> Kamu berhasil Input Data SPP
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -35,7 +35,7 @@
             <?php    } elseif($_GET['status'] == 'editberhasil'){ ?>
 
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>Sukses! </strong> Kamu berhasil Edit Data Petugas
+  <strong>Sukses! </strong> Kamu berhasil Edit Data SPP
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -45,7 +45,7 @@
 
        <?php     } elseif ($_GET['status'] == 'berhasilhapus'){ ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>Sukses! </strong> Kamu berhasil Hapus Data Petugas
+  <strong>Sukses! </strong> Kamu berhasil Hapus Data SPP
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -57,7 +57,14 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-  <?php }
+  <?php } elseif($_GET['status'] == 'errornumeric') { ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Gagal! </strong> Terdeteksi ada error inputan harus menggunakan nomor
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<?php  }
             }
 
 ?>
@@ -65,7 +72,7 @@
 <?php
 $per_page = 5;
 $halaman = isset($_GET['halaman']) ? $_GET['halaman'] : 1;
-$datas = $fungsi->petugas($halaman, $per_page);
+$datas = $fungsi->dataspp($halaman, $per_page);
 $data_page = $datas['data'];
 $total_halaman = $datas['total_halaman'];
 $next = $datas['next'];
@@ -77,9 +84,8 @@ $no = $datas['no'];
     <table class="table table-bordered table-striped">
         <tr>
             <th>No</th>
-            <th>Nama Petugas</th>
-            <th>Username</th>
-            <th>Level</th>
+            <th>Tahun</th>
+            <th>Nominal</th>
             <th>Aksi</th>
         </tr>
         <?php $no=1; ?>
@@ -89,11 +95,10 @@ $no = $datas['no'];
 
                 <tr>
                     <td><?= $no++; ?></td>
-                    <td><?= $d['nama_petugas']; ?></td>
-                    <td><?= $d['username']; ?></td>
-                    <td><?= ucwords($d['level']);?></td>
-                    <td><a class="btn btn-success btn-sm mb-1" href="admin.php?page=editpetugas&id_petugas=<?= $d['id_petugas']; ?>">Edit</a>
-                    <a class="btn btn-danger btn-sm mb-1" href="admin.php?page=deletepetugas&id_petugas=<?= $d['id_petugas']; ?>" onclick="return confirm('Apa anda yakin menghapus data ini?');">Hapus</a>
+                    <td><?= $d['tahun']; ?></td>
+                    <td>Rp.<?= number_format($d['nominal'],2,',','.'); ?></td>
+                    <td><a class="btn btn-success btn-sm mb-1" href="admin.php?page=editspp&id_spp=<?= $d['id_spp']; ?>">Edit</a>
+                    <a class="btn btn-danger btn-sm mb-1" href="admin.php?page=deletespp&id_spp=<?= $d['id_spp']; ?>" onclick="return confirm('Menghapus data ini sama dengan menghapus data siswa yang terhubung dengan tahun spp ini, apakah anda yakin?');">Hapus</a>
                 </td>
                 </tr>
          <?php }
@@ -108,15 +113,15 @@ $no = $datas['no'];
     <div class="col-6">
     <nav aria-label="Page navigation example">
   <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="<?= $halaman>1 ? $config['home'].'admin.php?page=datapetugas&halaman='.$previous : "" ?>">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="<?= $halaman>1 ? $config['home'].'admin.php?page=dataspp&halaman='.$previous : "" ?>">Previous</a></li>
     <?php 
     for($x=1; $x <= $total_halaman; $x++){
         $link_active = ($halaman == $x) ? "page-item active" : "page-item";
     ?>
-    <li class="page-item <?= $link_active; ?>"><a class="page-link" href="<?= $config['home'] . "admin.php?page=datapetugas&halaman=$x";?>"><?= $x;?></a></li>
+    <li class="page-item <?= $link_active; ?>"><a class="page-link" href="<?= $config['home'] . "admin.php?page=dataspp&halaman=$x";?>"><?= $x;?></a></li>
     
     <?php } ?>
-    <li class="page-item"><a class="page-link" href="<?= $halaman<$total_halaman ? $config['home'].'admin.php?page=datapetugas&halaman='.$next : "" ?>">Next</a></li>
+    <li class="page-item"><a class="page-link" href="<?= $halaman<$total_halaman ? $config['home'].'admin.php?page=dataspp&halaman='.$next : "" ?>">Next</a></li>
   </ul>
 </nav>
     </div>

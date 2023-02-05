@@ -34,7 +34,11 @@ $config = $fungsi->config();
         
         } elseif($_GET['aksi'] == 'logout'){
             $auth->logout();
-        } elseif($_GET['aksi'] == 'loginSiswa'){
+        } elseif($_GET['aksi'] == 'logins') {
+        include "loginsiswa.php";
+        }
+        
+        elseif($_GET['aksi'] == 'loginsiswa'){
         $nis = $_POST['nis'];
         $no_telp = $_POST['no_telp'];
 
