@@ -5,7 +5,7 @@ class Login{
         $fungsi = new Fungsi;
         $config = $fungsi->config();
         if(isset($_POST['login'])){
-            $sql = "SELECT * FROM petugas WHERE username='$username'";
+        $sql = "SELECT * FROM petugas WHERE username='$username'";
         $query = mysqli_query($fungsi->kon(), $sql);
         $data = mysqli_fetch_assoc($query);
             $datapassword = isset($data['password']) ? $data['password'] : "";
@@ -43,7 +43,7 @@ class Login{
             else {
 
                 $_GET['status'] = "gagal";
-                header('location: index.php?status=gagal');
+                header('location: index.php?aksi=logins&status=gagal');
     
             }
         }  

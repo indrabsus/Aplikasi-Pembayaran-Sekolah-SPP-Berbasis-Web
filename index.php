@@ -20,11 +20,6 @@ $config = $fungsi->config();
     include "layouts/header.php";
     
     
-        if(isset($_GET['status'])){
-            if($_GET['status'] == 'gagal'){
-            echo "<h3>User tidak ditemukan</h3>";
-            }
-        }   
         if(empty($_GET['aksi'])){
             include "login.php";
         } elseif($_GET['aksi'] == 'login'){

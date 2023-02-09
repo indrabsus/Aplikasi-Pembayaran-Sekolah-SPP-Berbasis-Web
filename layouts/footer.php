@@ -35,29 +35,27 @@ $data = $fungsi->grafik();
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: <?php
-      
-          echo "[";
+      labels: [<?php
           foreach($data as $d){
-          echo $d['nisn'].",";
+        $tgl_bayar = date('d M Y', strtotime($d['tgl_bayar']));
+          echo "'".$tgl_bayar."'" .",";
           }
           
 ?>
-<?php echo "]";?>,
+],
       datasets: [{
         label: 'Pembayaran',
-        data: 
+        data: [
           <?php
-          echo "[";
           foreach($data as $d){
           echo $d['jumlah_bayar'] . ",";
           }
           
 ?>
-<?php echo "]";?>
+]
         ,
         borderWidth: 1
-      }]
+      }],
     },
     options: {
       scales: {
